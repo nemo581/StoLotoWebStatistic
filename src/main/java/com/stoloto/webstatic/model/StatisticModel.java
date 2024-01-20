@@ -1,17 +1,33 @@
 package com.stoloto.webstatic.model;
 
+import jakarta.persistence.*;
 
+@Entity
+@Table(name = "db_stoloto")
 public class StatisticModel {
+    @Transient
     private int[][] drawnNumbers;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private Long id;
+    @Column(name = "timeNewPost", columnDefinition = "text")
     private String timeNewPost;
+    @Column(name = "tab_1")
     private byte tab_1;
+    @Column(name = "tab_2")
     private byte tab_2;
+    @Column(name = "tab_3")
     private byte tab_3;
+    @Column(name = "tab_4")
     private byte tab_4;
+    @Column(name = "tab_5")
     private byte tab_5;
+    @Column(name = "tab_6")
     private byte tab_6;
+    @Column(name = "tab_7")
     private byte tab_7;
+    @Column(name = "tab_8")
     private byte tab_8;
 
     public StatisticModel(Long id, String timeNewPost, byte tab_1, byte tab_2, byte tab_3, byte tab_4,

@@ -2,9 +2,15 @@
 <html>
 <head>
     <title>StatDate</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
 <body>
-<div style="font-size: 12px; color: green; font-family: Arial,serif">[statistic.ftlh] :: started</div><hr>
+<div style="font-size: 12px; color: green; font-family: Arial,serif">[statistic.ftlh] :: started</div>
+<hr>
+
+<form action="/" method="get">
+    <input type="number" name="id" style="width: 33px; text-align: center" placeholder="id"><input type="submit" value="Поиск"><br>
+</form>
 
 <form action="/statistic/create/" method="post" style="font-size: 14px; font-family: Arial,serif">
     <input type="text" name="timeNewPost" style="width: 123px; text-align: center" placeholder="dd.mm.yyyy hh:mm">
@@ -17,21 +23,36 @@
     <input type="number" name="tab_6" style="width: 33px; text-align: center" placeholder="tab_6">
     <input type="number" name="tab_7" style="width: 33px; text-align: center" placeholder="tab_7">
     <input type="number" name="tab_8" style="width: 33px; text-align: center" placeholder="tab_8">
-</form><hr>
+</form>
+<hr>
 
-<#list getStatisticList as staticData>
-    [${staticData.timeNewPost}]
-    <a href="/statistic/${staticData.id}">::${staticData.id}::</a>
-    ${staticData.tab_1}
-    ${staticData.tab_2}
-    ${staticData.tab_3}
-    ${staticData.tab_4}
-    ${staticData.tab_5}
-    ${staticData.tab_6}
-    ${staticData.tab_7}
-    ${staticData.tab_8}<br>
-</#list><hr>
-
-
+<table class="table">
+    <thead>
+    <tr style="font-size: 14px; font-family: Arial,serif">
+        статистические данные
+    </tr>
+    <tr>
+        <th>Дата</th>
+        <th>Тираж</th>
+        <th colspan="8">Выпавшие числа</th>
+    </tr>
+    </thead>
+    <tbody>
+    <#list getStatisticList as data>
+        <tr>
+            <td>[${data.timeNewPost}]</td>
+            <td><a href="/statistic/${data.id}">${data.id}</a></td>
+            <td>${data.tab_1}</td>
+            <td>${data.tab_2}</td>
+            <td>${data.tab_3}</td>
+            <td>${data.tab_4}</td>
+            <td>${data.tab_5}</td>
+            <td>${data.tab_6}</td>
+            <td>${data.tab_7}</td>
+            <td>${data.tab_8}</td>
+        </tr>
+    </#list>
+    </tbody>
+</table>
 </body>
 </html>
