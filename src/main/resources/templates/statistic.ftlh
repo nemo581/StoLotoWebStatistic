@@ -24,6 +24,10 @@
     <input type="number" name="tab_7" style="width: 33px; text-align: center" placeholder="tab_7">
     <input type="number" name="tab_8" style="width: 33px; text-align: center" placeholder="tab_8">
 </form>
+
+<form action="/" method="post" style="font-size: 14px; font-family: Arial,serif">
+    <input type="submit" value="NewDate"><br>
+</form>
 <hr>
 
 <table class="table">

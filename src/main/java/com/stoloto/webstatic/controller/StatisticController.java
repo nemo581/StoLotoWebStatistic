@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.io.IOException;
+
 @Controller
 public class StatisticController {
     private final StatisticService statisticService;
@@ -31,6 +33,18 @@ public class StatisticController {
     @PostMapping("/statistic/create/")
     public String addStatistic(StatisticModel statisticModel) {
         statisticService.saveStatisticData(statisticModel);
+        return "redirect:/";
+    }
+
+    @PostMapping("/")
+    public String newMethod() {
+        try {
+            for(StatisticModel st : statisticService.uploadingData()) {
+                addStatistic(st);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         return "redirect:/";
     }
 }

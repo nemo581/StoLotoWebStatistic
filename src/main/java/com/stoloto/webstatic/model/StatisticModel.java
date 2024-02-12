@@ -8,7 +8,7 @@ public class StatisticModel {
     @Transient
     private int[][] drawnNumbers;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+//    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Long id;
     @Column(name = "timeNewPost", columnDefinition = "text")

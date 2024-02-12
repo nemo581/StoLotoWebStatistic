@@ -9,5 +9,4 @@ public class StoLotoWebStaticApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(StoLotoWebStaticApplication.class, args);
 	}
-
 }
