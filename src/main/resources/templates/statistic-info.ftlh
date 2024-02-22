@@ -21,16 +21,16 @@
     </thead>
     <tbody>
     <tr>
-        <td>[${getStatisticById.timeNewPost}]</td>
-        <td>${getStatisticById.id}</td>
-        <td>${getStatisticById.tab_1}</td>
-        <td>${getStatisticById.tab_2}</td>
-        <td>${getStatisticById.tab_3}</td>
-        <td>${getStatisticById.tab_4}</td>
-        <td>${getStatisticById.tab_5}</td>
-        <td>${getStatisticById.tab_6}</td>
-        <td>${getStatisticById.tab_7}</td>
-        <td>${getStatisticById.tab_8}</td>
+        <td>[${getStatisticByCirculation.date}]</td>
+        <td>${getStatisticByCirculation.circulation}</td>
+        <td>${getStatisticByCirculation.tab_1}</td>
+        <td>${getStatisticByCirculation.tab_2}</td>
+        <td>${getStatisticByCirculation.tab_3}</td>
+        <td>${getStatisticByCirculation.tab_4}</td>
+        <td>${getStatisticByCirculation.tab_5}</td>
+        <td>${getStatisticByCirculation.tab_6}</td>
+        <td>${getStatisticByCirculation.tab_7}</td>
+        <td>${getStatisticByCirculation.tab_8}</td>
     </tr>
     </tbody>
 </table>

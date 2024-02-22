@@ -7,7 +7,14 @@ import org.jsoup.select.Elements;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.io.FileWriter;
 import java.io.IOException;
+import java.net.UnknownHostException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Month;
+import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 
 @SpringBootTest
 class StoLotoWebStaticApplicationTests {
@@ -32,22 +39,35 @@ class StoLotoWebStaticApplicationTests {
 
     public static void main(String[] args) throws IOException {
         StoLotoWebStaticApplicationTests stoLotoWebStaticApplicationTests;
-        String url = "https://www.stoloto.ru/4x20/archive?from=18.01.2024&to=18.01.2024&firstDraw=1&lastDraw=7500&mode=date";
-        Document document = Jsoup.connect(url).get();
-        Elements elements = document.getElementsByClass("main");
-        for (Element el : elements) {
-            stoLotoWebStaticApplicationTests = new StoLotoWebStaticApplicationTests(el.getElementsByClass("draw_date").text(),
-                    el.getElementsByTag("a").text().replace('⚲', ' ').strip(),
-                    Byte.parseByte(el.getElementsByTag("b").get(0).text()),
-                    Byte.parseByte(el.getElementsByTag("b").get(1).text()),
-                    Byte.parseByte(el.getElementsByTag("b").get(2).text()),
-                    Byte.parseByte(el.getElementsByTag("b").get(3).text()),
-                    Byte.parseByte(el.getElementsByTag("b").get(4).text()),
-                    Byte.parseByte(el.getElementsByTag("b").get(5).text()),
-                    Byte.parseByte(el.getElementsByTag("b").get(6).text()),
-                    Byte.parseByte(el.getElementsByTag("b").get(7).text()),
-                    el.getElementsByClass("prize").text());
-            System.out.println(stoLotoWebStaticApplicationTests + "\n");
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        LocalDateTime dateTime_from = LocalDateTime.of(2016, Month.DECEMBER, 30, 0, 0, 0);
+        LocalDateTime dateTime_to = LocalDateTime.now();
+
+        while (!(dateTime_to.toLocalDate().equals(dateTime_from.toLocalDate()))) {
+            dateTime_from = dateTime_from.plusDays(1);
+            String url = "https://www.stoloto.ru/4x20/archive?from=" + dateTimeFormatter.format(dateTime_from) + "&to=" + dateTimeFormatter.format(dateTime_from) + "&firstDraw=1&lastDraw=7500&mode=date";
+            Document document = null;
+            try {
+                document = Jsoup.connect(url).get();
+                Elements elements = document.getElementsByClass("main");
+                for (Element el : elements) {
+                    stoLotoWebStaticApplicationTests = new StoLotoWebStaticApplicationTests(el.getElementsByClass("draw_date").text(),
+                            el.getElementsByTag("a").text().replace('⚲', ' ').strip(),
+                            Byte.parseByte(el.getElementsByTag("b").get(0).text()),
+                            Byte.parseByte(el.getElementsByTag("b").get(1).text()),
+                            Byte.parseByte(el.getElementsByTag("b").get(2).text()),
+                            Byte.parseByte(el.getElementsByTag("b").get(3).text()),
+                            Byte.parseByte(el.getElementsByTag("b").get(4).text()),
+                            Byte.parseByte(el.getElementsByTag("b").get(5).text()),
+                            Byte.parseByte(el.getElementsByTag("b").get(6).text()),
+                            Byte.parseByte(el.getElementsByTag("b").get(7).text()),
+                            el.getElementsByClass("prize").text());
+                    System.out.println(stoLotoWebStaticApplicationTests);
+                }
+            } catch (UnknownHostException e) {
+                System.out.println(e.getMessage() + ": " + "\u001B[31m" + " not connection" + "\u001B[0m \n" + url);
+                return;
+            }
         }
     }
 
@@ -57,12 +77,20 @@ class StoLotoWebStaticApplicationTests {
 
     @Override
     public String toString() {
-        return "StoLotoWebStaticApplicationTests{ " +
-                date + " " + circulation + " [ " +
-                d_1 + " " + d_2 + " " + d_3 + " " + d_4 + " | " +
-                d_5 + " " + d_6 + " " + d_7 + " " + d_8 + " ] " +
-                prize +
-                " }";
+        return String.format("%-34s %-18s %-3s [%-3d %-3d %-3d %-3d |  %-3d %-3d %-3d %-2d]   %s",
+                getClass().getSimpleName(),
+                date,
+                circulation,
+                d_1, d_2, d_3, d_4,
+                d_5, d_6, d_7, d_8, prize);
+
+
+//        return String.format("\u001b[38;5;39m%-34s\u001b[38;5;31m %-18s %-6s \u001b[38;5;106m[%-3d %-3d %-3d %-3d |  %-3d %-3d %-3d %-2d] \u001b[38;5;31m%16s\u001B[0m",
+//                getClass().getSimpleName(),
+//                date,
+//                circulation,
+//                d_1, d_2, d_3, d_4,
+//                d_5, d_6, d_7, d_8, prize);
     }
 
 }
