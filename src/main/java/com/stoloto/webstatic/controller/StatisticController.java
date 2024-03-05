@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 @Controller
 public class StatisticController {
@@ -28,6 +30,7 @@ public class StatisticController {
     }
     @GetMapping("/")
     public String getStatistic(@RequestParam(name = "circulation", required = false) Integer circulation, Model model) {
+        System.out.println("getStatistic method" + " " + circulation);
         model.addAttribute("getStatisticList", statisticService.getStatisticList(circulation));
         return "statistic";
     }
@@ -44,14 +47,20 @@ public class StatisticController {
 //        return "redirect:/";
 //    }
 
-    @PostMapping("/")
-    public String addStatistic() throws IOException {
-        StatisticModel statisticModel = null;
+    @GetMapping("/updateData")
+    public String updateData() throws IOException {
+        StatisticModel statisticModel;
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        LocalDateTime dateTime_from = LocalDateTime.of(2016, Month.DECEMBER, 30, 0, 0, 0);
-        LocalDateTime dateTime_to = LocalDateTime.now();
+        LocalDateTime dateTime_from;
 
-        while (!(dateTime_to.toLocalDate().equals(dateTime_from.toLocalDate()))) {
+        if (statisticService.getStatisticList(null).isEmpty()) {
+            dateTime_from = LocalDateTime.of(2016, Month.DECEMBER, 30, 0, 0, 0);
+        } else {
+            dateTime_from = LocalDate.parse(statisticService.getStatisticList(statisticService.getStatisticList(null).size()).
+                                            get(0).getDate().substring(0, 10), dateTimeFormatter).atStartOfDay();
+        }
+
+        while (!(LocalDateTime.now().minusDays(1).toLocalDate().equals(dateTime_from.toLocalDate()))) {
             dateTime_from = dateTime_from.plusDays(1);
             String url = "https://www.stoloto.ru/4x20/archive?from=" + dateTimeFormatter.format(dateTime_from) + "&to=" + dateTimeFormatter.format(dateTime_from) + "&firstDraw=1&lastDraw=7500&mode=date";
             Document document = null;
@@ -59,7 +68,7 @@ public class StatisticController {
                 document = Jsoup.connect(url).get();
                 Elements elements = document.getElementsByClass("main");
                 for (Element el : elements) {
-                            statisticModel = new StatisticModel(el.getElementsByClass("draw_date").text(),
+                    statisticModel = new StatisticModel(el.getElementsByClass("draw_date").text(),
                             Integer.parseInt(el.getElementsByTag("a").text().replace('⚲', ' ').strip()),
                             Byte.parseByte(el.getElementsByTag("b").get(0).text()),
                             Byte.parseByte(el.getElementsByTag("b").get(1).text()),

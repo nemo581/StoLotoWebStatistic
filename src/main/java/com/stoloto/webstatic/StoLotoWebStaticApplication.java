@@ -1,5 +1,6 @@
 package com.stoloto.webstatic;
 
+import com.stoloto.webstatic.service.StatisticService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
