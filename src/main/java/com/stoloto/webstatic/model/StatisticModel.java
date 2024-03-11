@@ -1,19 +1,26 @@
 package com.stoloto.webstatic.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 
 @Entity
 @Table(name = "db_stoloto")
 public class StatisticModel {
     @Transient
     private int[][] drawnNumbers;
+//    @Id
+//    private int id;
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
     @Column(name = "circulation")
     private Integer circulation;
     @Column(name = "date", columnDefinition = "text")
-    private String date;
+    private LocalDateTime date;
     @Column(name = "tab_1")
     private byte tab_1;
     @Column(name = "tab_2")
@@ -30,11 +37,10 @@ public class StatisticModel {
     private byte tab_7;
     @Column(name = "tab_8")
     private byte tab_8;
-
     @Column(name = "bank")
     private String bank;
 
-    public StatisticModel(String date, Integer circulation, byte tab_1, byte tab_2, byte tab_3, byte tab_4,
+    public StatisticModel(LocalDateTime date, Integer circulation, byte tab_1, byte tab_2, byte tab_3, byte tab_4,
                           byte tab_5, byte tab_6, byte tab_7, byte tab_8, String bank) {
         this.circulation = circulation;
         this.date = date;
@@ -56,12 +62,24 @@ public class StatisticModel {
         return this.drawnNumbers;
     }
 
+//    public int getId() {
+//        return this.id;
+//    }
+
     public Integer getCirculation() {
         return this.circulation;
     }
 
-    public String getDate() {
+    public String getCirculationByPage() {
+        return this.circulation.toString();
+    }
+
+    public LocalDateTime getDate() {
         return this.date;
+    }
+
+    public String getDateByPage() {
+        return this.date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy kk:mm"));
     }
 
     public byte getTab_1() {
@@ -104,12 +122,16 @@ public class StatisticModel {
         this.drawnNumbers = drawnNumbers;
     }
 
+//    public void setId(int id) {
+//        this.id = id;
+//    }
+
     public void setCirculation(Integer circulation) {
         this.circulation = circulation;
     }
 
-    public void setDate(String timeNewPost) {
-        this.date = timeNewPost;
+    public void setDate(LocalDateTime date) {
+        this.date = date;
     }
 
     public void setTab_1(byte tab_1) {
@@ -148,15 +170,17 @@ public class StatisticModel {
         this.bank = bank;
     }
 
-
     public boolean equals(final Object o) {
         if (o == this) return true;
         if (!(o instanceof StatisticModel)) return false;
         final StatisticModel other = (StatisticModel) o;
         if (!other.canEqual((Object) this)) return false;
-        if (!java.util.Arrays.deepEquals(this.getDrawnNumbers(), other.getDrawnNumbers())) return false;
-        if (this.id != other.id) return false;
-        if (this.getCirculation() != other.getCirculation()) return false;
+        if (!Arrays.deepEquals(this.getDrawnNumbers(), other.getDrawnNumbers())) return false;
+//        if (this.getId() != other.getId()) return false;
+        final Object this$circulation = this.getCirculation();
+        final Object other$circulation = other.getCirculation();
+        if (this$circulation == null ? other$circulation != null : !this$circulation.equals(other$circulation))
+            return false;
         final Object this$date = this.getDate();
         final Object other$date = other.getDate();
         if (this$date == null ? other$date != null : !this$date.equals(other$date)) return false;
@@ -181,9 +205,10 @@ public class StatisticModel {
     public int hashCode() {
         final int PRIME = 59;
         int result = 1;
-        result = result * PRIME + java.util.Arrays.deepHashCode(this.getDrawnNumbers());
-        result = result * PRIME + this.id;
-        result = result * PRIME + this.getCirculation();
+        result = result * PRIME + Arrays.deepHashCode(this.getDrawnNumbers());
+//        result = result * PRIME + this.getId();
+        final Object $circulation = this.getCirculation();
+        result = result * PRIME + ($circulation == null ? 43 : $circulation.hashCode());
         final Object $date = this.getDate();
         result = result * PRIME + ($date == null ? 43 : $date.hashCode());
         result = result * PRIME + this.getTab_1();
@@ -199,12 +224,11 @@ public class StatisticModel {
         return result;
     }
 
+    @Override
     public String toString() {
-//        return "StatisticModel(drawnNumbers=" + java.util.Arrays.deepToString(this.getDrawnNumbers()) + ", id=" + this.id + ", circulation=" + this.getCirculation() + ", date=" + this.getDate() + ", tab_1=" + this.getTab_1() + ", tab_2=" + this.getTab_2() + ", tab_3=" + this.getTab_3() + ", tab_4=" + this.getTab_4() + ", tab_5=" + this.getTab_5() + ", tab_6=" + this.getTab_6() + ", tab_7=" + this.getTab_7() + ", tab_8=" + this.getTab_8() + ", bank=" + this.getBank() + ")";
-
         return String.format("%-34s %-18s %-3d [%-3d %-3d %-3d %-3d |  %-3d %-3d %-3d %-2d]   %s",
                 this.getClass().getSimpleName(),
-                this.date,
+                this.date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy kk:mm")),
                 this.circulation,
                 this.tab_1, this.tab_2, this.tab_3, this.tab_4,
                 this.tab_5, this.tab_6, this.tab_7, this.tab_8,

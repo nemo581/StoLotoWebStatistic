@@ -24,8 +24,8 @@
             <tbody>
             <#list getStatisticList as data>
                 <tr>
-                    <td>[${data.date}]</td>
-                    <td><a href="/statistic/${data.circulation}">${data.circulation}</a></td>
+                    <td>[${data.getDateByPage()}]</td>
+                    <td><a href="/statistic/${data.getCirculationByPage()}">${data.getCirculationByPage()}</a></td>
                     <td>${data.tab_1}</td>
                     <td>${data.tab_2}</td>
                     <td>${data.tab_3}</td>
