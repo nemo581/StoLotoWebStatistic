@@ -21,15 +21,11 @@ import java.util.Arrays;
 
 @SpringBootTest
 class StoLotoWebStaticApplicationTests {
-    public static void main(String[] args) throws IOException {
-        LocalDateTime dateTime_from = LocalDateTime.of(2024, Month.MARCH, 4, 0, 0, 0);
-        LocalDateTime dateTime_to = LocalDateTime.now();
-        System.out.println(dateTime_from + " " + dateTime_to + " " +
-                dateTime_from.toLocalDate().equals(dateTime_to.toLocalDate()));
-
+    public static void main(String[] args) {
     }
 
-//    @Test
-//    void contextLoads() {
-//    }
+    @Test
+    void contextLoads() {
+
+    }
 }
